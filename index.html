@@ -2,259 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#2a2a2a">
   <title>Timur Shemsedinov - Digital Visit Card</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .card-container {
-      perspective: 1500px;
-      width: 100%;
-      max-width: 500px;
-      aspect-ratio: 1.586;
-    }
-
-    .card {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-      cursor: pointer;
-      outline: none;
-    }
-
-    .card:focus {
-      outline: none;
-    }
-
-    .card:hover:not(.flipped) {
-      transform: rotateY(-5deg) rotateX(2deg);
-    }
-
-    .card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card.flipped:hover {
-      transform: rotateY(185deg) rotateX(2deg);
-    }
-
-    .card-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      padding: 35px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: visible;
-    }
-
-    .card-front {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-      color: white;
-      pointer-events: auto;
-    }
-
-    .card-back {
-      background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%);
-      color: white;
-      transform: rotateY(180deg);
-      pointer-events: none;
-      padding: 28px;
-    }
-
-    .card.flipped .card-front {
-      pointer-events: none;
-    }
-
-    .card.flipped .card-back {
-      pointer-events: auto;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .card-logo-svg {
-      width: 50px;
-      height: 50px;
-    }
-
-    .card-logo-text {
-      font-size: 14px;
-      font-weight: bold;
-      opacity: 0.9;
-      letter-spacing: 2px;
-    }
-
-    .card-name {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 20px;
-    }
-
-    .card-links {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .card-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      transition: all 0.3s;
-      backdrop-filter: blur(10px);
-    }
-
-    .card-links a:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .social-icons a {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      color: white;
-      text-decoration: none;
-      font-size: 20px;
-      transition: all 0.3s;
-      backdrop-filter: blur(10px);
-    }
-
-    .social-icons a:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px) scale(1.1);
-    }
-
-    .card-back-content {
-      height: 100%;
-      display: flex;
-      flex-direction: row;
-      gap: 15px;
-    }
-
-    .profile-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .profile-photo {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      margin-bottom: 8px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
-
-    .profile-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .about-section {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .about-section h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
-      opacity: 0.9;
-    }
-
-    .about-section p {
-      font-size: 11px;
-      line-height: 1.45;
-      opacity: 0.85;
-      margin-bottom: 6px;
-    }
-
-    .about-section strong {
-      font-size: 11px;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { overflow: hidden; height: 100%; position: fixed; width: 100%; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); height: 100vh; height: 100dvh; width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px; overflow: hidden; position: fixed; top: 0; left: 0; right: 0; bottom: 0; touch-action: pan-x pan-y; }
+    .card-container { perspective: 1500px; width: 100%; max-width: 500px; aspect-ratio: 1.586; }
+    .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer; outline: none; transform: rotateY(0deg); }
+    .card:focus { outline: none; }
+    .card:hover:not(.flipped) { transform: rotateY(-5deg) rotateX(2deg); }
+    .card.flipped { transform: rotateY(180deg); }
+    .card.flipped:hover { transform: rotateY(185deg) rotateX(2deg); }
+    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); padding: 35px; display: flex; flex-direction: column; justify-content: space-between; overflow: visible; -webkit-backface-visibility: hidden; }
+    .card-front { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); color: white; pointer-events: auto; z-index: 2; }
+    .card-back { background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%); color: white; transform: rotateY(180deg); pointer-events: none; padding: 28px; z-index: 1; }
+    .card.flipped .card-front { pointer-events: none; z-index: 1; }
+    .card.flipped .card-back { pointer-events: auto; z-index: 2; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-logo-svg { width: 50px; height: 50px; }
+    .card-logo-text { font-size: 14px; font-weight: bold; opacity: 0.9; letter-spacing: 2px; }
+    .card-name { font-size: 30px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+    .card-title { font-size: 14px; opacity: 0.9; margin-bottom: 20px; }
+    .card-links { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+    .card-links a { color: white; text-decoration: none; font-size: 13px; padding: 8px 16px; background: rgba(255, 255, 255, 0.15); border-radius: 20px; transition: all 0.3s; backdrop-filter: blur(10px); }
+    .card-links a:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+    .social-icons { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .social-icons a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.15); border-radius: 50%; color: white; text-decoration: none; font-size: 20px; transition: all 0.3s; backdrop-filter: blur(10px); }
+    .social-icons a:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-3px) scale(1.1); }
+    .card-back-content { height: 100%; display: flex; flex-direction: row; gap: 15px; }
+    .profile-section { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .profile-photo { width: 70px; height: 70px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); margin-bottom: 8px; border: 2px solid rgba(255, 255, 255, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-section { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .about-section h3 { font-size: 16px; margin-bottom: 6px; opacity: 0.9; }
+    .about-section p { font-size: 11px; line-height: 1.45; opacity: 0.85; margin-bottom: 6px; }
+    .about-section strong { font-size: 11px; }
     @media (max-width: 600px) {
-      .card-name {
-        font-size: 16px;
-      }
-
-      .card-face {
-        padding: 20px;
-      }
-
-      .card-links a {
-        font-size: 10px;
-        padding: 6px 10px;
-      }
-
-      .about-section p {
-        font-size: 10px;
-      }
-
-      .profile-photo {
-        width: 55px;
-        height: 55px;
-      }
-
-      .card-back-content {
-        gap: 12px;
-      }
+      body { padding: 15px; }
+      .card-name { font-size: 16px; }
+      .card-face { padding: 20px; }
+      .card-links a { font-size: 10px; padding: 6px 10px; }
+      .about-section p { font-size: 10px; }
+      .profile-photo { width: 55px; height: 55px; }
+      .card-back-content { gap: 12px; }
+      .card-back { padding: 20px; }
+    }
+    @media (max-height: 700px) and (max-width: 600px) {
+      body { padding: 10px; }
+      .card-face { padding: 18px; }
+      .card-back { padding: 18px; }
     }
   </style>
 </head>
@@ -352,18 +153,37 @@
       </div>
     </div>
   </div>
-
   <script>
     const card = document.getElementById('visitCard');
     card.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A' || e.target.closest('a')) {
-        return;
-      }
+      if (e.target.tagName === 'A' || e.target.closest('a')) return;
       card.classList.toggle('flipped');
     });
     card.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
+    document.body.addEventListener('touchmove', (e) => {
+      if (e.target.closest('.about-section')) return;
+      e.preventDefault();
+    }, { passive: false });
+    let lastTouchY = 0;
+    document.addEventListener('touchstart', (e) => {
+      lastTouchY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      const touchY = e.touches[0].clientY;
+      const touchYDelta = touchY - lastTouchY;
+      lastTouchY = touchY;
+      if (window.scrollY === 0 && touchYDelta > 0) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    window.addEventListener('resize', () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
   </script>
 </body>
 </html>

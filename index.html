@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timur Shemsedinov - Digital Visit Card</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card-container {
+      perspective: 1500px;
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 1.586;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .card:focus {
+      outline: none;
+    }
+
+    .card:hover:not(.flipped) {
+      transform: rotateY(-5deg) rotateX(2deg);
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card.flipped:hover {
+      transform: rotateY(185deg) rotateX(2deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: visible;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+      color: white;
+      pointer-events: auto;
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%);
+      color: white;
+      transform: rotateY(180deg);
+      pointer-events: none;
+      padding: 28px;
+    }
+
+    .card.flipped .card-front {
+      pointer-events: none;
+    }
+
+    .card.flipped .card-back {
+      pointer-events: auto;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .card-logo-svg {
+      width: 50px;
+      height: 50px;
+    }
+
+    .card-logo-text {
+      font-size: 14px;
+      font-weight: bold;
+      opacity: 0.9;
+      letter-spacing: 2px;
+    }
+
+    .card-name {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .card-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-links a:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-icons a:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px) scale(1.1);
+    }
+
+    .card-back-content {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+    }
+
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .profile-photo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      margin-bottom: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .about-section h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+
+    .about-section p {
+      font-size: 11px;
+      line-height: 1.45;
+      opacity: 0.85;
+      margin-bottom: 6px;
+    }
+
+    .about-section strong {
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+      .card-name {
+        font-size: 16px;
+      }
+
+      .card-face {
+        padding: 20px;
+      }
+
+      .card-links a {
+        font-size: 10px;
+        padding: 6px 10px;
+      }
+
+      .about-section p {
+        font-size: 10px;
+      }
+
+      .profile-photo {
+        width: 55px;
+        height: 55px;
+      }
+
+      .card-back-content {
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+    <div class="card" id="visitCard">
+      <div class="card-face card-front">
+        <div class="card-header">
+          <svg class="card-logo-svg" viewBox="0.0 0.0 745.7664041994751 720.0" fill="none" stroke="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#7db500" d="M 100,188 L 367,18 L 167,244 Z" fill-rule="evenodd"/>
+            <path fill="#8ecc00" d="M 167,244 L 527,243 L 367,18 Z" fill-rule="evenodd"/>
+            <path fill="#7db500" d="M 367,18 L 527,243 L 664,186 Z" fill-rule="evenodd"/>
+            <path fill="#699900" d="M 100,188 L 167,244 L 85,514 Z" fill-rule="evenodd"/>
+            <path fill="#5d8500" d="M 167,244 L 350,544 L 85,514 Z" fill-rule="evenodd"/>
+            <path fill="#699900" d="M 664,186 L 527,243 L 650,511 Z" fill-rule="evenodd"/>
+            <path fill="#5d8500" d="M 527,243 L 650,511 L 350,544 Z" fill-rule="evenodd"/>
+            <path fill="#699900" d="M 167,244 L 527,243 L 350,544 Z" fill-rule="evenodd"/>
+            <path fill="#507300" d="M 85,514 L 350,544 L 381,694 Z" fill-rule="evenodd"/>
+            <path fill="#425e00" d="M 350,544 L 381,694 L 650,511 Z" fill-rule="evenodd"/>
+          </svg>
+          <div class="card-logo-text">METARHIA</div>
+        </div>
+        
+        <div>
+          <div class="card-name">Timur Shemsedinov</div>
+          <div class="card-title">World ICT Revolution Leader</div>
+          
+          <div class="card-links">
+            <a href="https://github.com/tshemsedinov" target="_blank">GitHub</a>
+            <a href="https://metarhia.com" target="_blank">Metarhia.com</a>
+            <a href="https://github.com/HowProgrammingWorks" target="_blank">HowProgrammingWorks</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="social-icons">
+            <a href="https://github.com/tshemsedinov" target="_blank" title="GitHub">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <a href="https://youtube.com/@TimurShemsedinov" target="_blank" title="YouTube">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a href="https://linkedin.com/in/shemsedinov" target="_blank" title="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            <a href="https://twitter.com/tshemsedinov" target="_blank" title="X (Twitter)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com/tshemsedinov" target="_blank" title="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-face card-back">
+        <div class="card-back-content">
+          <div class="profile-section">
+            <div class="profile-photo">
+              <img src="https://avatars.githubusercontent.com/u/4405297?v=4" alt="Timur Shemsedinov">
+            </div>
+          </div>
+
+          <div class="about-section">
+            <div>
+              <div class="card-name" style="font-size: 17px; margin-bottom: 10px;">Timur Shemsedinov</div>
+              <p>Expert in Node.js & JavaScript, private clouds, software engineering, cybernetics, distributed systems, architecture, and databases.</p>
+            </div>
+            
+            <div>
+              <p><strong>Roles:</strong><br>
+              🔭 Researcher<br>
+              🎓 Lecturer at KPI<br>
+              💡 Advisor<br>
+              🛡️ CTO @ Metatech<br>
+              ⬢ Chief Architect @ Metarhia</p>
+
+              <p style="margin-bottom: 0;"><strong>Community:</strong><br>
+              📺 49k+ YouTube subscribers<br>
+              📢 ~110 conference talks<br>
+              ⚪ Metarhia community organizer (~50k engineers)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('visitCard');
+    card.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A' || e.target.closest('a')) {
+        return;
+      }
+      card.classList.toggle('flipped');
+    });
+    card.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+  </script>
+</body>
+</html>

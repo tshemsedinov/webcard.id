@@ -34,23 +34,28 @@
     .social-icons { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .social-icons a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.15); border-radius: 50%; color: white; text-decoration: none; font-size: 20px; transition: all 0.3s; backdrop-filter: blur(10px); }
     .social-icons a:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-3px) scale(1.1); }
-    .card-back-content { height: 100%; display: flex; flex-direction: row; gap: 15px; }
+    .card-back-content { height: 100%; display: flex; flex-direction: row; gap: 20px; }
     .profile-section { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-    .profile-photo { width: 70px; height: 70px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); margin-bottom: 8px; border: 2px solid rgba(255, 255, 255, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+    .profile-photo { width: 90px; height: 90px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); margin-bottom: 10px; border: 2px solid rgba(255, 255, 255, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 50px; }
     .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
-    .about-section { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-    .about-section h3 { font-size: 16px; margin-bottom: 6px; opacity: 0.9; }
-    .about-section p { font-size: 11px; line-height: 1.45; opacity: 0.85; margin-bottom: 6px; }
-    .about-section strong { font-size: 11px; }
+    .about-section { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .about-section h3 { font-size: 20px; margin-bottom: 8px; opacity: 0.9; }
+    .about-section p { font-size: 13px; line-height: 1.5; opacity: 0.85; margin-bottom: 8px; }
+    .about-section strong { font-size: 13px; }
+    .about-section .card-name { font-size: 20px; margin-bottom: 12px; }
+    .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .two-column-grid p:last-child { margin-bottom: 0; }
     @media (max-width: 600px) {
       body { padding: 15px; }
       .card-name { font-size: 16px; }
       .card-face { padding: 20px; }
       .card-links a { font-size: 10px; padding: 6px 10px; }
-      .about-section p { font-size: 10px; }
-      .profile-photo { width: 55px; height: 55px; }
-      .card-back-content { gap: 12px; }
+      .about-section p { font-size: 11px; }
+      .about-section .card-name { font-size: 17px; }
+      .profile-photo { width: 70px; height: 70px; }
+      .card-back-content { gap: 15px; }
       .card-back { padding: 20px; }
+      .two-column-grid { grid-template-columns: 1fr; gap: 10px; }
     }
     @media (max-height: 700px) and (max-width: 600px) {
       body { padding: 10px; }
@@ -84,9 +89,18 @@
           <div class="card-title">World ICT Revolution Leader</div>
           
           <div class="card-links">
-            <a href="https://github.com/tshemsedinov" target="_blank">GitHub</a>
-            <a href="https://metarhia.com" target="_blank">Metarhia.com</a>
-            <a href="https://github.com/HowProgrammingWorks" target="_blank">HowProgrammingWorks</a>
+            <a href="mailto:timur.shemsedinov@gmail.com">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 6px;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              timur.shemsedinov@gmail.com
+            </a>
+            <a href="https://t.me/tshemsedinov" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 6px;">
+                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+              </svg>
+              t.me/tshemsedinov
+            </a>
           </div>
         </div>
 
@@ -117,6 +131,11 @@
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
+            <a href="https://github.com/tshemsedinov/feed" target="_blank" title="News Feed">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20A2.18 2.18 0 0 1 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -131,22 +150,23 @@
 
           <div class="about-section">
             <div>
-              <div class="card-name" style="font-size: 17px; margin-bottom: 10px;">Timur Shemsedinov</div>
-              <p>Expert in Node.js & JavaScript, private clouds, software engineering, cybernetics, distributed systems, architecture, and databases.</p>
+              <div class="card-name">Timur Shemsedinov</div>
+              <p>30 years in IT, Expert in Architecture, Software Engineering, Distributed Systems, Node.js, JavaScript, TypeScript, Patterns, Private Clouds, Cybernetics, Multiparadigm Programming, Async and Parallel Programming, Databases and Network protocols.</p>
             </div>
             
-            <div>
+            <div class="two-column-grid">
               <p><strong>Roles:</strong><br>
-              🔭 Researcher<br>
+              🔬 Researcher<br>
               🎓 Lecturer at KPI<br>
-              💡 Advisor<br>
-              🛡️ CTO @ Metatech<br>
-              ⬢ Chief Architect @ Metarhia</p>
+              💡 Advisor, Mentor<br>
+              🛡️ CTO & Co-founder<br>
+              🏛️ Architect</p>
 
-              <p style="margin-bottom: 0;"><strong>Community:</strong><br>
-              📺 49k+ YouTube subscribers<br>
-              📢 ~110 conference talks<br>
-              ⚪ Metarhia community organizer (~50k engineers)</p>
+              <p><strong>Community:</strong><br>
+              🔔 49k+ at YouTube<br>
+              ▶️ 350+ free lectures<br>
+              📢 100+ conference talks<br>
+              ⚪ Metarhia community</p>
             </div>
           </div>
         </div>

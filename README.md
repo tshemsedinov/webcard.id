@@ -1,2 +1,0 @@
-# webcard.id
-Web Cards

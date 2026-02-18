@@ -11,15 +11,14 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { overflow: hidden; height: 100%; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); min-height: 100vh; min-height: 100dvh; display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; overflow: hidden; touch-action: pan-x pan-y; --card-scale: min(1, (100vw - 40px) / 500, (100dvh - 40px) / (500 / 1.586)); }
-    .card-viewport { width: calc(500px * var(--card-scale)); height: calc(500px / 1.586 * var(--card-scale)); display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
-    .card-container { perspective: 1500px; width: 500px; flex-shrink: 0; aspect-ratio: 1.586; transform: scale(var(--card-scale)); transform-origin: center center; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); height: 100vh; height: 100dvh; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; position: fixed; top: 0; left: 0; touch-action: pan-x pan-y; }
+    .card-container { perspective: 1500px; width: 500px; aspect-ratio: 1.586; transform-origin: center center; }
     .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer; outline: none; transform: rotateY(0deg); }
     .card:focus { outline: none; }
     .card:hover:not(.flipped) { transform: rotateY(-5deg) rotateX(2deg); }
     .card.flipped { transform: rotateY(180deg); }
     .card.flipped:hover { transform: rotateY(185deg) rotateX(2deg); }
-    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); padding: 35px; display: flex; flex-direction: column; justify-content: space-between; overflow: visible; -webkit-backface-visibility: hidden; }
+    .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); padding: 35px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; -webkit-backface-visibility: hidden; }
     .card-front { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); color: white; pointer-events: auto; z-index: 2; }
     .card-back { background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%); color: white; transform: rotateY(180deg); pointer-events: none; padding: 28px; z-index: 1; }
     .card.flipped .card-front { pointer-events: none; z-index: 1; }
@@ -35,7 +34,8 @@
     .social-icons { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .social-icons a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.15); border-radius: 50%; color: white; text-decoration: none; font-size: 20px; transition: all 0.3s; backdrop-filter: blur(10px); }
     .social-icons a:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-3px) scale(1.1); }
-    .card-back-content { height: 100%; display: flex; flex-direction: column; gap: 0; }
+    .card-back-content { height: 100%; display: flex; flex-direction: column; gap: 0; overflow-y: auto; scrollbar-width: none; }
+    .card-back-content::-webkit-scrollbar { display: none; }
     .card-back-top { display: flex; flex-direction: row; gap: 20px; flex-shrink: 0; padding-bottom: 10px; }
     .profile-section { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
     .profile-photo { width: 90px; height: 90px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); margin-bottom: 10px; border: 2px solid rgba(255, 255, 255, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 50px; }
@@ -47,12 +47,11 @@
     .card-back a:hover { color: white; }
     .about-section .card-name { font-size: 20px; margin-bottom: 12px; }
     .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%; margin-top: 8px; flex-shrink: 0; }
-    .two-column-grid p { line-height: 1.4; }
+    .two-column-grid p { line-height: 1.4; font-size: 13px; }
     .two-column-grid p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
-  <div class="card-viewport">
   <div class="card-container">
     <div class="card" id="visitCard">
       <div class="card-face card-front">
@@ -71,11 +70,9 @@
           </svg>
           <div class="card-logo-text">METARHIA</div>
         </div>
-        
         <div>
           <div class="card-name">Timur Shemsedinov</div>
           <div class="card-title">World ICT Revolution Leader</div>
-          
           <div class="card-links">
             <a href="mailto:timur.shemsedinov@gmail.com">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 6px;">
@@ -91,7 +88,6 @@
             </a>
           </div>
         </div>
-
         <div>
           <div class="social-icons">
             <a href="https://github.com/tshemsedinov" target="_blank" title="GitHub">
@@ -137,7 +133,6 @@
           </div>
         </div>
       </div>
-
       <div class="card-face card-back">
         <div class="card-back-content">
           <div class="card-back-top">
@@ -146,7 +141,6 @@
                 <img src="https://avatars.githubusercontent.com/u/4405297?v=4" alt="Timur Shemsedinov">
               </div>
             </div>
-
             <div class="about-section">
               <div>
                 <div class="card-name">Timur Shemsedinov</div>
@@ -154,25 +148,25 @@
               </div>
             </div>
           </div>
-
           <div class="two-column-grid">
             <p>
-              🔬 <a href="https://github.com/HowProgrammingWorks/Index/blob/master/Courses/Talks.md" target="_blank" rel="noopener">Researcher</a><br>
+              🔬 <a href="https://github.com/HowProgrammingWorks/Index/blob/master/Courses/Talks.md" target="_blank" rel="noopener">Researcher, R&D leader</a><br>
               🎓 <a href="https://comsys.kpi.ua/our-employees/shemsedinov-tymur-gafarovych/" target="_blank" rel="noopener">Lecturer at KPI</a><br>
-              💡 <a href="https://linkedin.com/in/shemsedinov" target="_blank" rel="noopener">Advisor, Mentor</a><br>
-              🛡️ <a href="https://github.com/metatech-university" target="_blank" rel="noopener">CTO & Co-founder</a><br>
-              🏛️ <a href="https://github.com/metarhia" target="_blank" rel="noopener">Architect</a></p>
+              💡 <a href="https://linkedin.com/in/shemsedinov" target="_blank" rel="noopener">Advisor, Mentor, Speaker</a><br>
+              🛡️ <a href="https://github.com/metatech-university" target="_blank" rel="noopener">CTO & Co-founder @ MetaTech</a><br>
+              🏛️ <a href="https://github.com/metarhia" target="_blank" rel="noopener">Architect @ Metarhia</a>
+            </p>
             <p>
-              ▶️ <a href="https://youtube.com/@TimurShemsedinov" target="_blank" rel="noopener">YouTube: 49k+</a><br>
-              ⚪ <a href="https://t.me/metarhia" target="_blank" rel="noopener">NodeUA & Metarhia</a><br>
+              ▶️ <a href="https://youtube.com/@TimurShemsedinov" target="_blank" rel="noopener">YouTube: 49k+ subscribers</a><br>
+              ⚪ <a href="https://t.me/metarhia" target="_blank" rel="noopener">NodeUA Community Leader<br>
               👨‍💻 <a href="https://t.me/HowProgrammingWorks" target="_blank" rel="noopener">How Programming Works</a><br>
-              🎫 <a href="https://www.meetup.com/nodeua/" target="_blank" rel="noopener">NodeUA at Meetup</a><br>
-              🎙️ <a href="https://www.patreon.com/c/tshemsedinov" target="_blank" rel="noopener">Patreon</a></p>
+              🎫 <a href="https://www.meetup.com/howprogrammingworks" target="_blank" rel="noopener">Meetup: 3 groups</a><br>
+              🎙️ <a href="https://www.patreon.com/c/tshemsedinov" target="_blank" rel="noopener">Patreon: 7 courses</a>
+            </p>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
   <script>
     const card = document.getElementById('visitCard');
@@ -183,28 +177,18 @@
     card.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
-    document.body.addEventListener('touchmove', (e) => {
-      if (e.target.closest('.about-section')) return;
-      e.preventDefault();
-    }, { passive: false });
-    let lastTouchY = 0;
-    document.addEventListener('touchstart', (e) => {
-      lastTouchY = e.touches[0].clientY;
-    }, { passive: true });
-    document.addEventListener('touchmove', (e) => {
-      const touchY = e.touches[0].clientY;
-      const touchYDelta = touchY - lastTouchY;
-      lastTouchY = touchY;
-      if (window.scrollY === 0 && touchYDelta > 0) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-    window.addEventListener('resize', () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    });
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    const CARD_W = 500;
+    const CARD_H = 500 / 1.586;
+    const PADDING = 40;
+    const MIN_SCALE = 0.4;
+    const scaleCard = () => {
+      const scaleX = (window.innerWidth - PADDING) / CARD_W;
+      const scaleY = (window.innerHeight - PADDING) / CARD_H;
+      const scale = Math.max(MIN_SCALE, Math.min(1, scaleX, scaleY));
+      document.querySelector('.card-container').style.transform = `scale(${scale})`;
+    };
+    window.addEventListener('resize', scaleCard);
+    scaleCard();
   </script>
 </body>
 </html>

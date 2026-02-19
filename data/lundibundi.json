@@ -1,0 +1,26 @@
+{
+  "name": "Denys Otrishko",
+  "title": "Node.js Core Contributor · Metarhia Engineer",
+  "avatar": "https://github.com/lundibundi.png",
+  "links": [
+    { "icon": "github",  "title": "GitHub",   "url": "https://github.com/lundibundi" },
+    { "icon": "twitter", "title": "X",        "url": "https://twitter.com/lundibundi" },
+    { "icon": "github",  "title": "Metarhia", "url": "https://github.com/metarhia" },
+    { "icon": "github",  "title": "Node.js",  "url": "https://github.com/nodejs" }
+  ],
+  "bio": "Software engineer in Kyiv, Ukraine. Core contributor to Node.js runtime. Member of Metarhia, HowProgrammingWorks, and Salucyber organisations. Focused on JavaScript runtime internals, performance, and open-source infrastructure.",
+  "roles": [
+    { "emoji": "🟢", "text": "Node.js Core Contributor",          "url": "https://github.com/nodejs/node" },
+    { "emoji": "⚙️", "text": "Software Engineer @ Metarhia",      "url": "https://github.com/metarhia" },
+    { "emoji": "🔬", "text": "Runtime Performance Research",       "url": "https://github.com/lundibundi" },
+    { "emoji": "📦", "text": "Node.js HTTP (undici) Contributor",  "url": "https://github.com/nodejs/undici" },
+    { "emoji": "🛡️", "text": "Salucyber Team",                    "url": "https://github.com/Salucyber" }
+  ],
+  "community": [
+    { "emoji": "🏛️", "text": "Metarhia",                         "url": "https://github.com/metarhia" },
+    { "emoji": "🟢", "text": "Node.js Organisation",              "url": "https://github.com/nodejs" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",           "url": "https://github.com/HowProgrammingWorks" },
+    { "emoji": "🛡️", "text": "Salucyber",                        "url": "https://github.com/Salucyber" },
+    { "emoji": "📍", "text": "Kyiv, Ukraine",                     "url": "https://github.com/lundibundi" }
+  ]
+}

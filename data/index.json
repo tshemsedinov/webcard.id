@@ -6,6 +6,36 @@
     "avatar": "https://avatars.githubusercontent.com/u/4405297?v=4"
   },
   {
+    "id": "lundibundi",
+    "name": "Denys Otrishko",
+    "title": "Node.js Core Contributor · Metarhia Engineer",
+    "avatar": "https://github.com/lundibundi.png"
+  },
+  {
+    "id": "nechaido",
+    "name": "Dmytro Nechai",
+    "title": "Software Engineer · RPC & Distributed Systems",
+    "avatar": "https://github.com/nechaido.png"
+  },
+  {
+    "id": "belochub",
+    "name": "Mykola Bilochub",
+    "title": "Software Engineer @ Metarhia",
+    "avatar": "https://github.com/belochub.png"
+  },
+  {
+    "id": "agil",
+    "name": "Alex Golikov",
+    "title": "Software Engineer · Frontend & DevOps",
+    "avatar": "https://github.com/agil.png"
+  },
+  {
+    "id": "timursevimli",
+    "name": "Timur Sevimli",
+    "title": "Software Engineer & DevOps Enthusiast",
+    "avatar": "https://github.com/timursevimli.png"
+  },
+  {
     "id": "marcus",
     "name": "Marcus Aurelius",
     "title": "Roman Emperor · Stoic Philosopher",

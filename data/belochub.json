@@ -1,0 +1,24 @@
+{
+  "name": "Mykola Bilochub",
+  "title": "Software Engineer @ Metarhia",
+  "avatar": "https://github.com/belochub.png",
+  "bio": "Software engineer at Metarhia, Kyiv, Ukraine. Contributes to Node.js ecosystem, browser compatibility tooling, and ESLint. Focused on JavaScript standards, open-source infrastructure, and distributed systems.",
+  "links": [
+    { "icon": "github", "title": "GitHub", "url": "https://github.com/belochub" },
+    { "icon": "github", "title": "Metarhia", "url": "https://github.com/metarhia" }
+  ],
+  "roles": [
+    { "emoji": "⚙️", "text": "Software Engineer @ Metarhia",     "url": "https://github.com/metarhia" },
+    { "emoji": "🌐", "text": "Browser Compat Contributor",        "url": "https://github.com/mdn/browser-compat-data" },
+    { "emoji": "🔧", "text": "ESLint Contributor",                "url": "https://github.com/eslint/eslint" },
+    { "emoji": "🟢", "text": "Node.js Contributor",               "url": "https://github.com/nodejs/node" },
+    { "emoji": "🇺🇦", "text": "Node.js Ukrainian Translation",   "url": "https://github.com/nodejs/nodejs-uk" }
+  ],
+  "community": [
+    { "emoji": "🏛️", "text": "Metarhia",                         "url": "https://github.com/metarhia" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",           "url": "https://github.com/HowProgrammingWorks" },
+    { "emoji": "🎓", "text": "MetaTech University",               "url": "https://github.com/metatech-university" },
+    { "emoji": "📦", "text": "CRDT Research",                     "url": "https://github.com/HowProgrammingWorks/CRDT" },
+    { "emoji": "🌍", "text": "Kyiv, Ukraine",                     "url": "https://github.com/belochub" }
+  ]
+}

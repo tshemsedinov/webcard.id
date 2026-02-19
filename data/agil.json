@@ -1,0 +1,24 @@
+{
+  "name": "Alex Golikov",
+  "title": "Software Engineer · Frontend & DevOps",
+  "avatar": "https://github.com/agil.png",
+  "bio": "Software engineer with a broad stack spanning frontend development (React, Web Components) and DevOps (Docker, infrastructure). Contributes to MetaTech University courses and Metarhia ecosystem projects.",
+  "links": [
+    { "icon": "github", "title": "GitHub",    "url": "https://github.com/agil" },
+    { "icon": "github", "title": "Metarhia",  "url": "https://github.com/metarhia" }
+  ],
+  "roles": [
+    { "emoji": "⚛️", "text": "Frontend: React & Web Components",  "url": "https://github.com/agil" },
+    { "emoji": "🐳", "text": "DevOps & Docker",                   "url": "https://github.com/agil/Dockerfiles" },
+    { "emoji": "🐍", "text": "Python Developer",                  "url": "https://github.com/agil/advanced-01" },
+    { "emoji": "🎓", "text": "MetaTech University Contributor",   "url": "https://github.com/metatech-university" },
+    { "emoji": "🧩", "text": "Abstractions & Design Patterns",    "url": "https://github.com/agil/Abstractions" }
+  ],
+  "community": [
+    { "emoji": "🏛️", "text": "Metarhia",                         "url": "https://github.com/metarhia" },
+    { "emoji": "🎓", "text": "MetaTech University",               "url": "https://github.com/metatech-university" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",           "url": "https://github.com/HowProgrammingWorks" },
+    { "emoji": "🐳", "text": "Docker & Infra",                    "url": "https://github.com/agil/Dockerfiles" },
+    { "emoji": "🔷", "text": "Open Source",                       "url": "https://github.com/agil" }
+  ]
+}

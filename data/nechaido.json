@@ -1,0 +1,25 @@
+{
+  "name": "Dmytro Nechai",
+  "title": "Software Engineer · RPC & Distributed Systems",
+  "avatar": "https://github.com/nechaido.png",
+  "links": [
+    { "icon": "github",  "title": "GitHub",   "url": "https://github.com/nechaido" },
+    { "icon": "twitter", "title": "X",        "url": "https://twitter.com/nechaido" },
+    { "icon": "github",  "title": "Metarhia", "url": "https://github.com/metarhia" }
+  ],
+  "bio": "Software engineer in Kyiv, Ukraine. Core contributor to JSTP — fast RPC for browser and Node.js over TCP and WebSocket. Member of Metarhia, HowProgrammingWorks, HandyAI, and Salucyber organisations.",
+  "roles": [
+    { "emoji": "🔌", "text": "JSTP RPC Framework Author",         "url": "https://github.com/metarhia/jstp" },
+    { "emoji": "⚙️", "text": "Software Engineer @ Metarhia",      "url": "https://github.com/metarhia" },
+    { "emoji": "🌐", "text": "Distributed Systems Engineer",       "url": "https://github.com/nechaido" },
+    { "emoji": "🤖", "text": "HandyAI Contributor",               "url": "https://github.com/HandyAI" },
+    { "emoji": "🛡️", "text": "Salucyber Team",                    "url": "https://github.com/Salucyber" }
+  ],
+  "community": [
+    { "emoji": "🏛️", "text": "Metarhia",                         "url": "https://github.com/metarhia" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",           "url": "https://github.com/HowProgrammingWorks" },
+    { "emoji": "🤖", "text": "HandyAI",                          "url": "https://github.com/HandyAI" },
+    { "emoji": "🛡️", "text": "Salucyber",                        "url": "https://github.com/Salucyber" },
+    { "emoji": "📍", "text": "Kyiv, Ukraine",                     "url": "https://github.com/nechaido" }
+  ]
+}

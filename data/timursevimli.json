@@ -1,0 +1,25 @@
+{
+  "name": "Timur Sevimli",
+  "title": "Software Engineer & DevOps Enthusiast",
+  "avatar": "https://github.com/timursevimli.png",
+  "links": [
+    { "icon": "github", "title": "GitHub",           "url": "https://github.com/timursevimli" },
+    { "icon": "github", "title": "Metarhia",         "url": "https://github.com/metarhia" },
+    { "icon": "github", "title": "MetaTech Univ.",   "url": "https://github.com/metatech-university" }
+  ],
+  "bio": "Software engineer and DevOps enthusiast. Languages: JS, TS, Rust, Go, Python, SQL, Bash. Stack: Node.js, Metarhia, Fastify, NestJS, React, Next.js. Tools: Docker, Kubernetes, Proxmox, AWS, Ansible, Terraform.",
+  "roles": [
+    { "emoji": "⚙️", "text": "Software Engineer @ Metarhia",      "url": "https://github.com/metarhia" },
+    { "emoji": "🐳", "text": "DevOps: k8s, Docker, Terraform",    "url": "https://github.com/timursevimli" },
+    { "emoji": "🦀", "text": "Polyglot: JS, TS, Rust, Go",        "url": "https://github.com/timursevimli" },
+    { "emoji": "🔁", "text": "Async Queue & Retry Libraries",      "url": "https://github.com/timursevimli/kuyruk" },
+    { "emoji": "🎓", "text": "MetaTech University Contributor",    "url": "https://github.com/metatech-university" }
+  ],
+  "community": [
+    { "emoji": "🏛️", "text": "Metarhia",                          "url": "https://github.com/metarhia" },
+    { "emoji": "🎓", "text": "MetaTech University",                "url": "https://github.com/metatech-university" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",            "url": "https://github.com/HowProgrammingWorks" },
+    { "emoji": "📦", "text": "Universal Code Modules",             "url": "https://github.com/Universal-Code-Modules" },
+    { "emoji": "🟢", "text": "Node.js Contributor",                "url": "https://github.com/nodejs/node" }
+  ]
+}

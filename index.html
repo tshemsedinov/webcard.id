@@ -10,10 +10,10 @@
   <title>Digital Visit Cards</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { height: 100%; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); min-height: 100dvh; }
+    html { height: 100%; overflow: hidden; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); height: 100dvh; overflow: hidden; }
 
-    #gallery-view { display: none; flex-direction: column; align-items: center; padding: 48px 24px 64px; gap: 36px; min-height: 100dvh; }
+    #gallery-view { display: none; flex-direction: column; align-items: center; padding: 48px 24px 64px; gap: 36px; height: 100dvh; overflow-y: auto; }
     .gallery-header { display: flex; align-items: center; gap: 14px; color: white; }
     .gallery-logo { width: 40px; height: 40px; }
     .gallery-title { font-size: 22px; font-weight: 700; letter-spacing: 1px; opacity: 0.9; }
@@ -68,8 +68,10 @@
     .grid-col { display: flex; flex-direction: column; gap: 4px; font-size: 12px; opacity: 0.85; }
     .card-divider { border: none; height: 2px; background: rgba(255,255,255,0.25); flex-shrink: 0; }
 
-    #back-btn { position: fixed; top: 16px; left: 20px; display: none; color: rgba(255,255,255,0.55); font-size: 13px; text-decoration: none; transition: color 0.2s; z-index: 10; }
-    #back-btn:hover { color: white; }
+    #back-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 7px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 500; text-decoration: none; letter-spacing: 0.3px; padding: 8px 14px 8px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; }
+    #back-btn:hover { background: rgba(255,255,255,0.18); color: white; transform: translateX(-2px); }
+    #back-btn svg { flex-shrink: 0; transition: transform 0.2s; }
+    #back-btn:hover svg { transform: translateX(-2px); }
     #gallery-view { transition: opacity 0.3s; }
     #gallery-view.fading { opacity: 0; pointer-events: none; }
     #card-view { transition: opacity 0.25s; }
@@ -97,7 +99,12 @@
     <div class="gallery-grid" id="gallery-grid"></div>
   </div>
 
-  <a id="back-btn" href="#">← All cards</a>
+  <a id="back-btn" href="#">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    All cards
+  </a>
   <div id="card-view">
     <div class="card-container" id="card-container">
       <div class="card" id="visitCard">
@@ -152,6 +159,47 @@
     </div>
   </div>
 
+  <template id="tpl-card-link">
+    <a>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d=""/></svg>
+      <span class="link-text"></span>
+    </a>
+  </template>
+  <template id="tpl-social-icon">
+    <a target="_blank" rel="noopener noreferrer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d=""/></svg>
+    </a>
+  </template>
+  <template id="tpl-grid-item">
+    <span><span class="item-emoji"></span> <a target="_blank" rel="noopener noreferrer"></a></span>
+  </template>
+  <template id="tpl-preview-card">
+    <a class="preview-card" data-id="">
+      <div class="preview-head">
+        <svg class="preview-logo" viewBox="0 0 746 720" style="width:18px;height:18px;flex-shrink:0">
+          <path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/>
+          <path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/>
+          <path fill="#7db500" d="M367,18 L527,243 L664,186Z" fill-rule="evenodd"/>
+          <path fill="#699900" d="M100,188 L167,244 L85,514Z" fill-rule="evenodd"/>
+          <path fill="#5d8500" d="M167,244 L350,544 L85,514Z" fill-rule="evenodd"/>
+          <path fill="#699900" d="M664,186 L527,243 L650,511Z" fill-rule="evenodd"/>
+          <path fill="#5d8500" d="M527,243 L650,511 L350,544Z" fill-rule="evenodd"/>
+          <path fill="#699900" d="M167,244 L527,243 L350,544Z" fill-rule="evenodd"/>
+          <path fill="#507300" d="M85,514 L350,544 L381,694Z" fill-rule="evenodd"/>
+          <path fill="#425e00" d="M350,544 L381,694 L650,511Z" fill-rule="evenodd"/>
+        </svg>
+        <span class="preview-brand">METARHIA</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-avatar"><img src="" alt="" loading="lazy"></div>
+        <div>
+          <div class="preview-name"></div>
+          <div class="preview-title"></div>
+        </div>
+      </div>
+    </a>
+  </template>
+
   <script>
     const ICONS = {
       github:   'M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.5 11.5 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z',
@@ -165,20 +213,48 @@
       telegram: 'M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z',
     };
 
-    const mkSvg = (icon, size = 20) =>
-      `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor"><path d="${ICONS[icon]}"/></svg>`;
+    const galleryView  = document.getElementById('gallery-view');
+    const cardView = document.getElementById('card-view');
+    const backBtn = document.getElementById('back-btn');
+    const card = document.getElementById('visitCard');
+    const container = document.getElementById('card-container');
 
-    const mkLink = (href, inner, { external = false, title = '' } = {}) => {
-      const ext = external ? ' target="_blank" rel="noopener noreferrer"' : '';
-      const ttl = title ? ` title="${title}"` : '';
-      return `<a href="${href}"${ext}${ttl}>${inner}</a>`;
+    const cardLinksEl = document.getElementById('card-links');
+    const socialIconsEl = document.getElementById('social-icons');
+    const rolesColEl = document.getElementById('roles-col');
+    const communityColEl = document.getElementById('community-col');
+
+    const tplCardLink = document.getElementById('tpl-card-link');
+    const tplSocialIcon = document.getElementById('tpl-social-icon');
+    const tplGridItem = document.getElementById('tpl-grid-item');
+
+    const cloneCardLink = (href, icon, text) => {
+      const el = tplCardLink.content.cloneNode(true);
+      const a = el.querySelector('a');
+      a.href = href;
+      if (href.startsWith('http')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+      a.querySelector('path').setAttribute('d', ICONS[icon]);
+      a.querySelector('.link-text').textContent = text;
+      return el;
     };
 
-    const galleryView  = document.getElementById('gallery-view');
-    const cardView     = document.getElementById('card-view');
-    const backBtn      = document.getElementById('back-btn');
-    const card         = document.getElementById('visitCard');
-    const container    = document.getElementById('card-container');
+    const cloneSocialIcon = (url, icon, title) => {
+      const el = tplSocialIcon.content.cloneNode(true);
+      const a = el.querySelector('a');
+      a.href = url;
+      a.title = title;
+      a.querySelector('path').setAttribute('d', ICONS[icon]);
+      return el;
+    };
+
+    const cloneGridItem = (emoji, url, text) => {
+      const el = tplGridItem.content.cloneNode(true);
+      el.querySelector('.item-emoji').textContent = emoji;
+      const a = el.querySelector('a');
+      a.href = url;
+      a.textContent = text;
+      return el;
+    };
 
     const renderCard = (data) => {
       document.title = `${data.name} - Digital Visit Card`;
@@ -189,22 +265,21 @@
       const img = document.getElementById('profile-img');
       img.src = data.avatar;
       img.alt = data.name;
-      document.getElementById('card-links').innerHTML = [
-        data.email    && mkLink(`mailto:${data.email}`,          mkSvg('email', 16)    + data.email,              {}),
-        data.telegram && mkLink(`https://t.me/${data.telegram}`, mkSvg('telegram', 16) + `t.me/${data.telegram}`, { external: true }),
-      ].filter(Boolean).join('');
-      document.getElementById('social-icons').innerHTML = (data.links || [])
-        .map(l => mkLink(l.url, mkSvg(l.icon), { external: true, title: l.title }))
-        .join('');
-      document.getElementById('roles-col').innerHTML = (data.roles || [])
-        .map(r => `<span>${r.emoji} ${mkLink(r.url, r.text, { external: true })}</span>`)
-        .join('');
-      document.getElementById('community-col').innerHTML = (data.community || [])
-        .map(c => `<span>${c.emoji} ${mkLink(c.url, c.text, { external: true })}</span>`)
-        .join('');
+
+      cardLinksEl.replaceChildren();
+      if (data.email) cardLinksEl.appendChild(cloneCardLink(`mailto:${data.email}`, 'email', data.email));
+      if (data.telegram) cardLinksEl.appendChild(cloneCardLink(`https://t.me/${data.telegram}`, 'telegram', `t.me/${data.telegram}`));
+
+      socialIconsEl.replaceChildren();
+      (data.links || []).forEach((l) => socialIconsEl.appendChild(cloneSocialIcon(l.url, l.icon, l.title)));
+
+      rolesColEl.replaceChildren();
+      (data.roles || []).forEach((r) => rolesColEl.appendChild(cloneGridItem(r.emoji, r.url, r.text)));
+
+      communityColEl.replaceChildren();
+      (data.community || []).forEach((c) => communityColEl.appendChild(cloneGridItem(c.emoji, c.url, c.text)));
     };
 
-    // ── Scaling ───────────────────────────────────────────────
     const dim  = { w: 500, h: 500 / 1.586 };
     const opts = { pad: 40, top: 20, min: 0.4 };
 
@@ -229,48 +304,30 @@
       if (cardView.style.display !== 'none') scaleCard();
     });
 
-    // ── Card flip ─────────────────────────────────────────────
     card.addEventListener('click', (e) => {
       if (e.target.tagName === 'A' || e.target.closest('a')) return;
       card.classList.toggle('flipped');
     });
     card.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    // ── Gallery rendering ─────────────────────────────────────
-    const logoSvg = `<svg viewBox="0 0 746 720" style="width:18px;height:18px;flex-shrink:0">
-      <path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/>
-      <path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/>
-      <path fill="#7db500" d="M367,18 L527,243 L664,186Z" fill-rule="evenodd"/>
-      <path fill="#699900" d="M100,188 L167,244 L85,514Z" fill-rule="evenodd"/>
-      <path fill="#5d8500" d="M167,244 L350,544 L85,514Z" fill-rule="evenodd"/>
-      <path fill="#699900" d="M664,186 L527,243 L650,511Z" fill-rule="evenodd"/>
-      <path fill="#5d8500" d="M527,243 L650,511 L350,544Z" fill-rule="evenodd"/>
-      <path fill="#699900" d="M167,244 L527,243 L350,544Z" fill-rule="evenodd"/>
-      <path fill="#507300" d="M85,514 L350,544 L381,694Z" fill-rule="evenodd"/>
-      <path fill="#425e00" d="M350,544 L381,694 L650,511Z" fill-rule="evenodd"/>
-    </svg>`;
+    const tplPreviewCard = document.getElementById('tpl-preview-card');
+    const galleryGrid = document.getElementById('gallery-grid');
 
     const renderGallery = (people) => {
-      document.getElementById('gallery-grid').innerHTML = people.map((p) => `
-        <a class="preview-card" href="#${p.id}" data-id="${p.id}">
-          <div class="preview-head">
-            ${logoSvg}
-            <span class="preview-brand">METARHIA</span>
-          </div>
-          <div class="preview-body">
-            <div class="preview-avatar">
-              <img src="${p.avatar}" alt="${p.name}" loading="lazy">
-            </div>
-            <div>
-              <div class="preview-name">${p.name}</div>
-              <div class="preview-title">${p.title}</div>
-            </div>
-          </div>
-        </a>
-      `).join('');
+      galleryGrid.replaceChildren();
+      people.forEach((p) => {
+        const el = tplPreviewCard.content.cloneNode(true);
+        const a = el.querySelector('a');
+        a.href = `#${p.id}`;
+        a.dataset.id = p.id;
+        el.querySelector('.preview-avatar img').src = p.avatar;
+        el.querySelector('.preview-avatar img').alt = p.name;
+        el.querySelector('.preview-name').textContent = p.name;
+        el.querySelector('.preview-title').textContent = p.title;
+        galleryGrid.appendChild(el);
+      });
     };
 
-    // ── Routing helpers ───────────────────────────────────────
     const getUser = () => {
       const hash = window.location.hash.slice(1);
       if (hash) return hash;
@@ -280,19 +337,24 @@
 
     const fetchCard = (user) =>
       fetch(`/data/${user}.json`)
-        .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then((r) => {
+          if (!r.ok) throw new Error(r.status);
+          return r.json();
+        })
         .then(renderCard)
         .catch(() => {
+          const logo = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 746 720"><path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/><path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/><path fill="#7db500" d="M367,18 L527,243 L664,186Z" fill-rule="evenodd"/><path fill="#699900" d="M100,188 L167,244 L85,514Z" fill-rule="evenodd"/><path fill="#5d8500" d="M167,244 L350,544 L85,514Z" fill-rule="evenodd"/><path fill="#699900" d="M664,186 L527,243 L650,511Z" fill-rule="evenodd"/><path fill="#5d8500" d="M527,243 L650,511 L350,544Z" fill-rule="evenodd"/><path fill="#699900" d="M167,244 L527,243 L350,544Z" fill-rule="evenodd"/><path fill="#507300" d="M85,514 L350,544 L381,694Z" fill-rule="evenodd"/><path fill="#425e00" d="M350,544 L381,694 L650,511Z" fill-rule="evenodd"/></svg>');
           document.title = 'Card not found';
           document.getElementById('front-name').textContent = 'Card not found';
           document.getElementById('front-title').textContent = `No data for "${user}"`;
           document.getElementById('back-name').textContent = 'Not found';
+          document.getElementById('profile-img').src = logo;
+          document.getElementById('profile-img').alt = 'Metarhia';
         });
 
-    // ── Animated open: preview card → full card ───────────────
     const openCard = (user, fromEl) => {
       card.classList.remove('flipped');
-      backBtn.style.display = 'block';
+      backBtn.style.display = 'flex';
       fetchCard(user);
 
       if (!fromEl) {
@@ -305,33 +367,27 @@
       const { scale: finalScale, offsetY } = computeScale();
       const rect = fromEl.getBoundingClientRect();
 
-      // Initial transform: container centred at preview card's centre, scaled to preview size
       const startScale = rect.width / dim.w;
       const startX = rect.left + rect.width  / 2 - window.innerWidth  / 2;
       const startY = rect.top  + rect.height / 2 - window.innerHeight / 2;
 
-      // Fade gallery out while card flies in
       galleryView.classList.add('fading');
 
-      // Show card view, position container at preview location (no transition yet)
       cardView.style.display = 'flex';
-      cardView.classList.add('fading');          // start invisible
+      cardView.classList.add('fading');
       container.style.transition = 'none';
       container.style.zoom = '';
       container.style.transformOrigin = 'center center';
       container.style.transform =
         `perspective(1800px) translate(${startX}px,${startY}px) scale(${startScale}) rotateY(-22deg)`;
 
-      // Force reflow so the initial state is painted before we add the transition
       container.getBoundingClientRect();
 
-      // Reveal card view and animate container to final position
       cardView.classList.remove('fading');
       container.style.transition = 'transform 0.65s cubic-bezier(0.34,1.26,0.64,1)';
       container.style.transform =
         `perspective(1800px) translateY(${offsetY}px) scale(${finalScale}) rotateY(0deg)`;
 
-      // After animation: hide gallery, switch to zoom for crisp text
       const ANIM_MS = 680;
       setTimeout(() => {
         galleryView.style.display = 'none';
@@ -341,19 +397,16 @@
         container.style.transition = 'none';
         container.style.transform  = `translateY(${offsetY}px)`;
         container.style.zoom       = finalScale;
-        // Restore normal resize-transition for subsequent window resize
         requestAnimationFrame(() => {
           container.style.transition = 'transform 0.6s cubic-bezier(0.4,0,0.2,1)';
         });
       }, ANIM_MS);
     };
 
-    // ── Animated close: full card → gallery ──────────────────
     const showGallery = (animated = false) => {
       document.title = 'Digital Visit Cards';
       backBtn.style.display = 'none';
       card.classList.remove('flipped');
-
       if (animated) {
         cardView.classList.add('fading');
         setTimeout(() => {
@@ -365,31 +418,27 @@
         cardView.style.display = 'none';
         galleryView.style.display = 'flex';
       }
-
       fetch('/data/index.json')
         .then((r) => r.json())
         .then(renderGallery)
         .catch(() => {});
     };
 
-    // ── Gallery click interception ────────────────────────────
     document.getElementById('gallery-grid').addEventListener('click', (e) => {
       const preview = e.target.closest('[data-id]');
       if (!preview) return;
       e.preventDefault();
       const user = preview.dataset.id;
-      history.pushState(null, '', `#${user}`);  // no hashchange fires
+      history.pushState(null, '', `#${user}`);
       openCard(user, preview);
     });
 
-    // Back button uses href="#" so hashchange fires → route() → showGallery
     backBtn.addEventListener('click', (e) => {
       e.preventDefault();
       history.pushState(null, '', '#');
       showGallery(true);
     });
 
-    // ── Router (browser back/forward, direct URL) ─────────────
     const route = () => {
       const user = getUser();
       if (user) openCard(user, null);

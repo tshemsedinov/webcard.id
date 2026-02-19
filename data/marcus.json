@@ -1,0 +1,25 @@
+{
+  "name": "Marcus Aurelius",
+  "title": "Roman Emperor · Stoic Philosopher",
+  "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Marcus_Aurelius_Glyptothek_Munich.jpg/440px-Marcus_Aurelius_Glyptothek_Munich.jpg",
+  "bio": "Roman Emperor (161–180 AD) and Stoic philosopher. Author of Meditations — personal writings on virtue, reason, and resilience. Led Rome through the Antonine Plague and wars on the northern frontier. Regarded as the last of the Five Good Emperors.",
+  "links": [
+    { "icon": "feed", "title": "Wikipedia",           "url": "https://en.wikipedia.org/wiki/Marcus_Aurelius" },
+    { "icon": "mic",  "title": "Meditations (audio)", "url": "https://librivox.org/meditations-by-marcus-aurelius-2/" },
+    { "icon": "feed", "title": "Meditations (text)",  "url": "https://www.gutenberg.org/ebooks/2680" }
+  ],
+  "roles": [
+    { "emoji": "👑", "text": "Roman Emperor (161–180 AD)",   "url": "https://en.wikipedia.org/wiki/Marcus_Aurelius" },
+    { "emoji": "📖", "text": "Author of Meditations",        "url": "https://www.gutenberg.org/ebooks/2680" },
+    { "emoji": "🏛️", "text": "Stoic Philosopher",            "url": "https://plato.stanford.edu/entries/marcus-aurelius/" },
+    { "emoji": "⚔️", "text": "Military Commander",           "url": "https://en.wikipedia.org/wiki/Marcomannic_Wars" },
+    { "emoji": "⚖️", "text": "Legal & Social Reformer",     "url": "https://en.wikipedia.org/wiki/Marcus_Aurelius#Law_and_administration" }
+  ],
+  "community": [
+    { "emoji": "🏺", "text": "Five Good Emperors",           "url": "https://en.wikipedia.org/wiki/Nerva%E2%80%93Antonine_dynasty" },
+    { "emoji": "🧘", "text": "Stoic School of Thought",      "url": "https://en.wikipedia.org/wiki/Stoicism" },
+    { "emoji": "🏛️", "text": "Roman Senate",                 "url": "https://en.wikipedia.org/wiki/Roman_Senate" },
+    { "emoji": "📜", "text": "Project Gutenberg",            "url": "https://www.gutenberg.org/ebooks/2680" },
+    { "emoji": "🎓", "text": "Stanford Encyclopedia",        "url": "https://plato.stanford.edu/entries/marcus-aurelius/" }
+  ]
+}

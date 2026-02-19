@@ -1,0 +1,32 @@
+{
+  "name": "Timur Shemsedinov",
+  "title": "World ICT Revolution Leader",
+  "email": "timur.shemsedinov@gmail.com",
+  "telegram": "tshemsedinov",
+  "avatar": "https://avatars.githubusercontent.com/u/4405297?v=4",
+  "bio": "30 years in IT, Expert in Architecture, Software Engineering, Distributed Systems, Node.js, JavaScript, TypeScript, Patterns, Private Clouds, Cybernetics, Multiparadigm Programming, Async and Parallel Programming, Databases and Network protocols.",
+  "links": [
+    { "icon": "github",   "title": "GitHub",            "url": "https://github.com/tshemsedinov" },
+    { "icon": "github",   "title": "Metarhia",           "url": "https://github.com/metarhia" },
+    { "icon": "youtube",  "title": "YouTube",            "url": "https://youtube.com/@TimurShemsedinov" },
+    { "icon": "linkedin", "title": "LinkedIn",           "url": "https://linkedin.com/in/shemsedinov" },
+    { "icon": "twitter",  "title": "X (Twitter)",        "url": "https://twitter.com/tshemsedinov" },
+    { "icon": "facebook", "title": "Facebook",           "url": "https://facebook.com/tshemsedinov" },
+    { "icon": "feed",     "title": "News Feed",          "url": "https://github.com/tshemsedinov/feed" },
+    { "icon": "mic",      "title": "Conference talks",   "url": "https://github.com/HowProgrammingWorks/Index/blob/master/Courses/Talks.md" }
+  ],
+  "roles": [
+    { "emoji": "🔬", "text": "Researcher, R&D leader",      "url": "https://scholar.google.com/citations?user=0lXYro8AAAAJ&hl=en" },
+    { "emoji": "🎓", "text": "Lecturer at KPI",             "url": "https://comsys.kpi.ua/our-employees/shemsedinov-tymur-gafarovych/" },
+    { "emoji": "💡", "text": "Advisor, Mentor, Speaker",    "url": "https://linkedin.com/in/shemsedinov" },
+    { "emoji": "🛡️", "text": "CTO & Co-founder @ MetaTech", "url": "https://github.com/metatech-university" },
+    { "emoji": "🏛️", "text": "Architect @ Metarhia",        "url": "https://github.com/metarhia" }
+  ],
+  "community": [
+    { "emoji": "▶️",  "text": "YouTube: 49k+ subscribers", "url": "https://youtube.com/@TimurShemsedinov" },
+    { "emoji": "⚪",  "text": "NodeUA Community Leader",   "url": "https://t.me/metarhia" },
+    { "emoji": "👨‍💻", "text": "How Programming Works",     "url": "https://t.me/HowProgrammingWorks" },
+    { "emoji": "🎫", "text": "Meetup: 3 groups",           "url": "https://www.meetup.com/howprogrammingworks" },
+    { "emoji": "🎙️", "text": "Patreon: 7 courses",         "url": "https://www.patreon.com/c/tshemsedinov" }
+  ]
+}

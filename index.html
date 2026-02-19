@@ -70,6 +70,10 @@
 
     #back-btn { position: fixed; top: 16px; left: 20px; display: none; color: rgba(255,255,255,0.55); font-size: 13px; text-decoration: none; transition: color 0.2s; z-index: 10; }
     #back-btn:hover { color: white; }
+    #gallery-view { transition: opacity 0.3s; }
+    #gallery-view.fading { opacity: 0; pointer-events: none; }
+    #card-view { transition: opacity 0.25s; }
+    #card-view.fading { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -200,29 +204,39 @@
         .join('');
     };
 
+    // ── Scaling ───────────────────────────────────────────────
     const dim  = { w: 500, h: 500 / 1.586 };
     const opts = { pad: 40, top: 20, min: 0.4 };
 
-    const scaleCard = () => {
-      const scaleX = (window.innerWidth - opts.pad) / dim.w;
-      const scaleY = (window.innerHeight - opts.pad) / dim.h;
-      const scale = Math.max(opts.min, Math.min(1, scaleX, scaleY));
+    const computeScale = () => {
+      const scale = Math.max(opts.min, Math.min(1,
+        (window.innerWidth  - opts.pad) / dim.w,
+        (window.innerHeight - opts.pad) / dim.h,
+      ));
       const portrait = window.innerHeight > window.innerWidth;
-      const scaledH = dim.h * scale;
-      const centerY = (window.innerHeight - scaledH) / 2;
-      const offsetY = portrait ? opts.top - centerY : 0;
-      container.style.zoom = scale;
-      container.style.transform = `translateY(${Math.round(offsetY)}px)`;
+      const offsetY = portrait ? opts.top - (window.innerHeight - dim.h * scale) / 2 : 0;
+      return { scale, offsetY: Math.round(offsetY) };
     };
 
-    window.addEventListener('resize', scaleCard);
+    const applyZoom = ({ scale, offsetY }) => {
+      container.style.transition = 'transform 0.6s cubic-bezier(0.4,0,0.2,1)';
+      container.style.zoom = scale;
+      container.style.transform = `translateY(${offsetY}px)`;
+    };
 
+    const scaleCard = () => applyZoom(computeScale());
+    window.addEventListener('resize', () => {
+      if (cardView.style.display !== 'none') scaleCard();
+    });
+
+    // ── Card flip ─────────────────────────────────────────────
     card.addEventListener('click', (e) => {
       if (e.target.tagName === 'A' || e.target.closest('a')) return;
       card.classList.toggle('flipped');
     });
     card.addEventListener('contextmenu', (e) => e.preventDefault());
 
+    // ── Gallery rendering ─────────────────────────────────────
     const logoSvg = `<svg viewBox="0 0 746 720" style="width:18px;height:18px;flex-shrink:0">
       <path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/>
       <path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/>
@@ -238,7 +252,7 @@
 
     const renderGallery = (people) => {
       document.getElementById('gallery-grid').innerHTML = people.map((p) => `
-        <a class="preview-card" href="#${p.id}">
+        <a class="preview-card" href="#${p.id}" data-id="${p.id}">
           <div class="preview-head">
             ${logoSvg}
             <span class="preview-brand">METARHIA</span>
@@ -256,6 +270,7 @@
       `).join('');
     };
 
+    // ── Routing helpers ───────────────────────────────────────
     const getUser = () => {
       const hash = window.location.hash.slice(1);
       if (hash) return hash;
@@ -263,23 +278,7 @@
       return parts[0] || null;
     };
 
-    const showGallery = () => {
-      document.title = 'Digital Visit Cards';
-      galleryView.style.display = 'flex';
-      cardView.style.display = 'none';
-      backBtn.style.display = 'none';
-      card.classList.remove('flipped');
-      fetch('/data/index.json')
-        .then((r) => r.json())
-        .then(renderGallery)
-        .catch(() => {});
-    };
-
-    const showCard = (user) => {
-      galleryView.style.display = 'none';
-      cardView.style.display = 'flex';
-      backBtn.style.display = 'block';
-      scaleCard();
+    const fetchCard = (user) =>
       fetch(`/data/${user}.json`)
         .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(renderCard)
@@ -289,11 +288,111 @@
           document.getElementById('front-title').textContent = `No data for "${user}"`;
           document.getElementById('back-name').textContent = 'Not found';
         });
+
+    // ── Animated open: preview card → full card ───────────────
+    const openCard = (user, fromEl) => {
+      card.classList.remove('flipped');
+      backBtn.style.display = 'block';
+      fetchCard(user);
+
+      if (!fromEl) {
+        galleryView.style.display = 'none';
+        cardView.style.display = 'flex';
+        scaleCard();
+        return;
+      }
+
+      const { scale: finalScale, offsetY } = computeScale();
+      const rect = fromEl.getBoundingClientRect();
+
+      // Initial transform: container centred at preview card's centre, scaled to preview size
+      const startScale = rect.width / dim.w;
+      const startX = rect.left + rect.width  / 2 - window.innerWidth  / 2;
+      const startY = rect.top  + rect.height / 2 - window.innerHeight / 2;
+
+      // Fade gallery out while card flies in
+      galleryView.classList.add('fading');
+
+      // Show card view, position container at preview location (no transition yet)
+      cardView.style.display = 'flex';
+      cardView.classList.add('fading');          // start invisible
+      container.style.transition = 'none';
+      container.style.zoom = '';
+      container.style.transformOrigin = 'center center';
+      container.style.transform =
+        `perspective(1800px) translate(${startX}px,${startY}px) scale(${startScale}) rotateY(-22deg)`;
+
+      // Force reflow so the initial state is painted before we add the transition
+      container.getBoundingClientRect();
+
+      // Reveal card view and animate container to final position
+      cardView.classList.remove('fading');
+      container.style.transition = 'transform 0.65s cubic-bezier(0.34,1.26,0.64,1)';
+      container.style.transform =
+        `perspective(1800px) translateY(${offsetY}px) scale(${finalScale}) rotateY(0deg)`;
+
+      // After animation: hide gallery, switch to zoom for crisp text
+      const ANIM_MS = 680;
+      setTimeout(() => {
+        galleryView.style.display = 'none';
+        galleryView.classList.remove('fading');
+      }, 300);
+      setTimeout(() => {
+        container.style.transition = 'none';
+        container.style.transform  = `translateY(${offsetY}px)`;
+        container.style.zoom       = finalScale;
+        // Restore normal resize-transition for subsequent window resize
+        requestAnimationFrame(() => {
+          container.style.transition = 'transform 0.6s cubic-bezier(0.4,0,0.2,1)';
+        });
+      }, ANIM_MS);
     };
 
+    // ── Animated close: full card → gallery ──────────────────
+    const showGallery = (animated = false) => {
+      document.title = 'Digital Visit Cards';
+      backBtn.style.display = 'none';
+      card.classList.remove('flipped');
+
+      if (animated) {
+        cardView.classList.add('fading');
+        setTimeout(() => {
+          cardView.style.display = 'none';
+          cardView.classList.remove('fading');
+          galleryView.style.display = 'flex';
+        }, 260);
+      } else {
+        cardView.style.display = 'none';
+        galleryView.style.display = 'flex';
+      }
+
+      fetch('/data/index.json')
+        .then((r) => r.json())
+        .then(renderGallery)
+        .catch(() => {});
+    };
+
+    // ── Gallery click interception ────────────────────────────
+    document.getElementById('gallery-grid').addEventListener('click', (e) => {
+      const preview = e.target.closest('[data-id]');
+      if (!preview) return;
+      e.preventDefault();
+      const user = preview.dataset.id;
+      history.pushState(null, '', `#${user}`);  // no hashchange fires
+      openCard(user, preview);
+    });
+
+    // Back button uses href="#" so hashchange fires → route() → showGallery
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      history.pushState(null, '', '#');
+      showGallery(true);
+    });
+
+    // ── Router (browser back/forward, direct URL) ─────────────
     const route = () => {
       const user = getUser();
-      if (user) showCard(user);
+      if (user) openCard(user, null);
       else showGallery();
     };
 

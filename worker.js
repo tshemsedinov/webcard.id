@@ -10,9 +10,23 @@ const ASSETS = [
   '/data/index.json',
 ];
 
+const getCardUrls = async (cache) => {
+  try {
+    const req = new Request('/data/index.json');
+    const res = await fetch(req);
+    if (res.ok) await cache.put(req, res.clone());
+    const list = await res.json();
+    return (list || []).map((p) => `/data/${p.id}.json`);
+  } catch {
+    return [];
+  }
+};
+
 const updateCache = async () => {
   const cache = await caches.open(CACHE);
-  await cache.addAll(ASSETS);
+  const cardUrls = await getCardUrls(cache);
+  const assets = [...ASSETS, ...cardUrls];
+  await cache.addAll(assets);
 };
 
 const install = async () => {

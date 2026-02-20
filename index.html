@@ -7,6 +7,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#2a2a2a">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
   <title>Digital Visit Cards</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +25,7 @@
     .preview-card:hover, .preview-card:focus { transform: rotateY(-5deg) rotateX(5deg) translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,0.5); }
     .preview-card:focus { outline: none; }
     .preview-head { display: flex; justify-content: space-between; align-items: flex-start; }
-    .preview-logo { width: 26px; height: 26px; }
+    .preview-logo { width: 18px; height: 18px; flex-shrink: 0; }
     .preview-brand { font-size: 8px; font-weight: bold; opacity: 0.65; letter-spacing: 2px; }
     .preview-body { display: flex; align-items: center; gap: 10px; }
     .preview-avatar { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.1); }
@@ -69,10 +71,17 @@
     .grid-col { display: flex; flex-direction: column; gap: 4px; font-size: 12px; opacity: 0.85; }
     .card-divider { border: none; height: 2px; background: rgba(255,255,255,0.25); flex-shrink: 0; }
 
-    #back-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 7px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 500; text-decoration: none; letter-spacing: 0.3px; padding: 8px 14px 8px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; }
+    #back-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 8px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: 0.3px; padding: 8px 14px 8px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; }
     #back-btn:hover, #back-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: translateX(-2px); outline: none; }
-    #back-btn svg { flex-shrink: 0; transition: transform 0.2s; }
-    #back-btn:hover svg, #back-btn:focus svg { transform: translateX(-2px); }
+    #back-btn span { font-size: 1.4em; font-weight: 700; }
+    #update-btn { position: fixed; top: 20px; right: 20px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: rgba(255,255,255,0.75); font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; cursor: pointer; }
+    #update-btn:hover, #update-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: scale(1.08); outline: none; }
+    #update-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    #update-btn.loading { pointer-events: none; animation: spin 0.8s linear infinite; }
+    #install-btn { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); display: none; align-items: center; gap: 6px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 700; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s; z-index: 10; cursor: pointer; }
+    #install-btn:hover, #install-btn:focus { background: rgba(255,255,255,0.18); color: white; outline: none; }
+    #install-btn.visible { display: flex; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     #gallery-view { transition: opacity 0.3s; }
     #gallery-view.fading { opacity: 0; pointer-events: none; }
     #card-view { transition: opacity 0.25s; }
@@ -100,12 +109,9 @@
     <div class="gallery-grid" id="gallery-grid"></div>
   </div>
 
-  <a id="back-btn" href="#">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-    All cards
-  </a>
+  <a id="back-btn" href="#"><span aria-hidden="true">‹</span> All cards</a>
+  <button id="install-btn" type="button" title="Install app" aria-label="Install app"><span aria-hidden="true">⬇</span> Install</button>
+  <button id="update-btn" type="button" title="Clear cache and refresh" aria-label="Update from server"><span aria-hidden="true">↻</span></button>
   <div id="card-view">
     <div class="card-container" id="card-container">
       <div class="card" id="visitCard">
@@ -177,7 +183,7 @@
   <template id="tpl-preview-card">
     <a class="preview-card" data-id="">
       <div class="preview-head">
-        <svg class="preview-logo" viewBox="0 0 746 720" style="width:18px;height:18px;flex-shrink:0">
+        <svg class="preview-logo" viewBox="0 0 746 720">
           <path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/>
           <path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/>
           <path fill="#7db500" d="M367,18 L527,243 L664,186Z" fill-rule="evenodd"/>
@@ -217,6 +223,8 @@
     const galleryView  = document.getElementById('gallery-view');
     const cardView = document.getElementById('card-view');
     const backBtn = document.getElementById('back-btn');
+    const updateBtn = document.getElementById('update-btn');
+    const installBtn = document.getElementById('install-btn');
     const card = document.getElementById('visitCard');
     const container = document.getElementById('card-container');
 
@@ -440,6 +448,39 @@
       showGallery(true);
     });
 
+    updateBtn.addEventListener('click', async () => {
+      if (!('caches' in window)) { location.reload(); return; }
+      updateBtn.classList.add('loading');
+      updateBtn.disabled = true;
+      try {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      } finally {
+        location.reload();
+      }
+    });
+
+    let deferredInstallPrompt = null;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (!isStandalone) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        installBtn.classList.add('visible');
+      });
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        installBtn.classList.remove('visible');
+      });
+    }
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      if (outcome === 'accepted') installBtn.classList.remove('visible');
+      deferredInstallPrompt = null;
+    });
+
     const route = () => {
       const user = getUser();
       if (user) openCard(user, null);
@@ -448,6 +489,12 @@
 
     window.addEventListener('hashchange', route);
     route();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/worker.js').catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>

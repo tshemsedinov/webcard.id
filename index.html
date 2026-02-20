@@ -12,6 +12,7 @@
   <title>Digital Visit Cards</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection, ::-moz-selection { background: rgba(125, 181, 0, 0.4); color: white; }
     html { height: 100%; overflow: hidden; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2a2a2a 0%, #3d3d3d 50%, #2a2a2a 100%); height: 100dvh; overflow: hidden; }
 
@@ -39,9 +40,9 @@
     .card:hover:not(.flipped) { transform: rotateY(-5deg) rotateX(2deg); }
     .card.flipped { transform: rotateY(180deg); }
     .card.flipped:hover { transform: rotateY(185deg) rotateX(2deg); }
-    .card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-    .card-front { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); color: white; z-index: 2; pointer-events: auto; }
-    .card-back { background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%); color: white; transform: rotateY(180deg); z-index: 1; pointer-events: none; padding: 22px; }
+    .card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; color: white; }
+    .card-front { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); z-index: 2; pointer-events: auto; }
+    .card-back { background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #2d2d2d 100%); transform: rotateY(180deg); z-index: 1; pointer-events: none; padding: 22px; }
     .card.flipped .card-front { pointer-events: none; z-index: 1; }
     .card.flipped .card-back { pointer-events: auto; z-index: 2; }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -50,11 +51,11 @@
     .card-name { font-size: 28px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
     .card-title { font-size: 13px; opacity: 0.9; margin-bottom: 14px; }
     .card-links { display: flex; gap: 10px; margin-bottom: 14px; overflow: hidden; }
-    .card-links a { color: white; text-decoration: none; font-size: 12px; padding: 7px 12px; background: rgba(255,255,255,0.15); border-radius: 20px; transition: all 0.3s; backdrop-filter: blur(10px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; min-width: 0; }
+    .card-links a { color: white; text-decoration: none; font-size: 12px; padding: 7px 12px; background: rgba(255,255,255,0.15); border-radius: 20px; transition: background 0.3s, transform 0.3s; backdrop-filter: blur(10px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; min-width: 0; }
     .card-links a svg { vertical-align: middle; margin-right: 6px; }
     .card-links a:hover, .card-links a:focus { background: rgba(255,255,255,0.25); transform: translateY(-2px); outline: none; }
     .social-icons { display: flex; gap: 9px; align-items: center; }
-    .social-icons a { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.15); border-radius: 50%; color: white; text-decoration: none; transition: all 0.3s; backdrop-filter: blur(10px); flex-shrink: 0; }
+    .social-icons a { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.15); border-radius: 50%; color: white; text-decoration: none; transition: background 0.3s, transform 0.3s; backdrop-filter: blur(10px); flex-shrink: 0; }
     .social-icons a:hover, .social-icons a:focus { background: rgba(255,255,255,0.25); transform: translateY(-3px) scale(1.1); outline: none; }
     .card-back-content { height: 100%; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; scrollbar-width: none; }
     .card-back-content::-webkit-scrollbar { display: none; }
@@ -71,14 +72,14 @@
     .grid-col { display: flex; flex-direction: column; gap: 4px; font-size: 12px; opacity: 0.85; }
     .card-divider { border: none; height: 2px; background: rgba(255,255,255,0.25); flex-shrink: 0; }
 
-    #back-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 8px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: 0.3px; padding: 8px 14px 8px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; }
-    #back-btn:hover, #back-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: translateX(-2px); outline: none; }
+    #back-btn, #install-btn, #update-btn { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; cursor: pointer; text-decoration: none; }
     #back-btn span, #install-btn span, #update-btn span { font-size: 1.4em; font-weight: 900; line-height: 1; display: inline-flex; align-items: center; }
-    #update-btn { position: fixed; top: 20px; right: 20px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: rgba(255,255,255,0.75); font-weight: 700; text-decoration: none; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; cursor: pointer; }
+    #back-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.3px; padding: 8px 14px 8px 10px; }
+    #back-btn:hover, #back-btn:focus, #install-btn:hover, #install-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: translateX(-2px); outline: none; }
+    #update-btn { position: fixed; top: 20px; right: 20px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; font-weight: 700; }
     #update-btn:hover, #update-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: scale(1.08); outline: none; }
     #update-btn.loading { opacity: 0.5; cursor: not-allowed; pointer-events: none; animation: spin 0.8s linear infinite; }
-    #install-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 8px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 700; text-decoration: none; padding: 8px 14px 8px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(12px); transition: background 0.2s, color 0.2s, transform 0.2s; z-index: 10; cursor: pointer; }
-    #install-btn:hover, #install-btn:focus { background: rgba(255,255,255,0.18); color: white; transform: translateX(-2px); outline: none; }
+    #install-btn { position: fixed; top: 20px; left: 20px; display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; padding: 8px 14px 8px 10px; }
     #install-btn.visible { display: flex; }
     @keyframes spin { to { transform: rotate(360deg); } }
     #gallery-view { transition: opacity 0.3s; }
@@ -219,19 +220,25 @@
       telegram: 'M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z',
     };
 
-    const galleryView  = document.getElementById('gallery-view');
+    const galleryView = document.getElementById('gallery-view');
     const cardView = document.getElementById('card-view');
+    const galleryGrid = document.getElementById('gallery-grid');
     const backBtn = document.getElementById('back-btn');
     const updateBtn = document.getElementById('update-btn');
     const installBtn = document.getElementById('install-btn');
     const card = document.getElementById('visitCard');
     const container = document.getElementById('card-container');
-
     const cardLinksEl = document.getElementById('card-links');
     const socialIconsEl = document.getElementById('social-icons');
     const rolesColEl = document.getElementById('roles-col');
     const communityColEl = document.getElementById('community-col');
+    const frontNameEl = document.getElementById('front-name');
+    const frontTitleEl = document.getElementById('front-title');
+    const backNameEl = document.getElementById('back-name');
+    const bioTextEl = document.getElementById('bio-text');
+    const profileImgEl = document.getElementById('profile-img');
 
+    const tplPreviewCard = document.getElementById('tpl-preview-card');
     const tplCardLink = document.getElementById('tpl-card-link');
     const tplSocialIcon = document.getElementById('tpl-social-icon');
     const tplGridItem = document.getElementById('tpl-grid-item');
@@ -266,13 +273,12 @@
 
     const renderCard = (data) => {
       document.title = `${data.name} - Digital Visit Card`;
-      document.getElementById('front-name').textContent = data.name;
-      document.getElementById('front-title').textContent = data.title;
-      document.getElementById('back-name').textContent = data.name;
-      document.getElementById('bio-text').textContent = data.bio;
-      const img = document.getElementById('profile-img');
-      img.src = data.avatar;
-      img.alt = data.name;
+      frontNameEl.textContent = data.name;
+      frontTitleEl.textContent = data.title;
+      backNameEl.textContent = data.name;
+      bioTextEl.textContent = data.bio;
+      profileImgEl.src = data.avatar;
+      profileImgEl.alt = data.name;
 
       cardLinksEl.replaceChildren();
       if (data.email) cardLinksEl.appendChild(cloneCardLink(`mailto:${data.email}`, 'email', data.email));
@@ -318,9 +324,6 @@
     });
     card.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    const tplPreviewCard = document.getElementById('tpl-preview-card');
-    const galleryGrid = document.getElementById('gallery-grid');
-
     const renderGallery = (people) => {
       galleryGrid.replaceChildren();
       people.forEach((p) => {
@@ -353,11 +356,11 @@
         .catch(() => {
           const logo = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 746 720"><path fill="#7db500" d="M100,188 L367,18 L167,244Z" fill-rule="evenodd"/><path fill="#8ecc00" d="M167,244 L527,243 L367,18Z" fill-rule="evenodd"/><path fill="#7db500" d="M367,18 L527,243 L664,186Z" fill-rule="evenodd"/><path fill="#699900" d="M100,188 L167,244 L85,514Z" fill-rule="evenodd"/><path fill="#5d8500" d="M167,244 L350,544 L85,514Z" fill-rule="evenodd"/><path fill="#699900" d="M664,186 L527,243 L650,511Z" fill-rule="evenodd"/><path fill="#5d8500" d="M527,243 L650,511 L350,544Z" fill-rule="evenodd"/><path fill="#699900" d="M167,244 L527,243 L350,544Z" fill-rule="evenodd"/><path fill="#507300" d="M85,514 L350,544 L381,694Z" fill-rule="evenodd"/><path fill="#425e00" d="M350,544 L381,694 L650,511Z" fill-rule="evenodd"/></svg>');
           document.title = 'Card not found';
-          document.getElementById('front-name').textContent = 'Card not found';
-          document.getElementById('front-title').textContent = `No data for "${user}"`;
-          document.getElementById('back-name').textContent = 'Not found';
-          document.getElementById('profile-img').src = logo;
-          document.getElementById('profile-img').alt = 'Metarhia';
+          frontNameEl.textContent = 'Card not found';
+          frontTitleEl.textContent = `No data for "${user}"`;
+          backNameEl.textContent = 'Not found';
+          profileImgEl.src = logo;
+          profileImgEl.alt = 'Metarhia';
         });
 
     const openCard = (user, fromEl) => {
@@ -434,7 +437,7 @@
         .catch(() => {});
     };
 
-    document.getElementById('gallery-grid').addEventListener('click', (e) => {
+    galleryGrid.addEventListener('click', (e) => {
       const preview = e.target.closest('[data-id]');
       if (!preview) return;
       e.preventDefault();

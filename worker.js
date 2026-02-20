@@ -44,11 +44,7 @@ self.addEventListener('install', (event) => {
 
 const serveFromCache = async (request) => {
   const cache = await caches.open(CACHE);
-  const cachedResponse = await cache.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-  return null;
+  return cache.match(request);
 };
 
 const fetchFromNetwork = async (request) => {
@@ -76,11 +72,8 @@ const offlineFallback = async (request) => {
 };
 
 const cleanupCache = async () => {
-  const cacheNames = await caches.keys();
-  const deletePromises = cacheNames
-    .filter((cacheName) => cacheName !== CACHE)
-    .map((cacheName) => caches.delete(cacheName));
-  await Promise.all(deletePromises);
+  const keys = await caches.keys();
+  await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
 };
 
 self.addEventListener('fetch', async (event) => {

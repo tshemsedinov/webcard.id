@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Redirecting…</title>
   <script>
-    const name = window.location.pathname.split('/').filter(Boolean)[0];
-    window.location.replace('/' + (name ? '#' + name : ''));
+    const [name] = location.pathname.split('/').filter(Boolean);
+    location.replace(`/${name ? '#' + name : ''}`);
   </script>
 </head>
 <body></body>
